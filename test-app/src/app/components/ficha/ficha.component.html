@@ -1,0 +1,61 @@
+<h3>Ficha del Paciente</h3>
+
+<select class="form-select mb-3" 
+        [(ngModel)]="pacienteSeleccionado">
+  <option [ngValue]="null" disabled selected>— Selecciona uno —</option>
+  <option *ngFor="let p of pacientes"
+          [ngValue]="p">
+    {{ p.nombre }} {{ p.apellido }}
+  </option>
+</select>
+
+<ng-container *ngIf="pacienteSeleccionado as p">
+  <div class="card" 
+       [ngClass]="{
+         'border-success': p.estado === EstadoPaciente.Estable,
+         'border-warning': p.estado === EstadoPaciente.Grave,
+         'border-danger':  p.estado === EstadoPaciente.Critico,
+         'border-primary': favorito,
+         'border-secondary': !favorito
+       }"
+       [ngStyle]="{
+          'background-color': favorito ? '#fff3cd' : 'white',
+          'opacity': favorito ? '0.8' : '1'
+        }"
+        [appHighlightCriticalOnline]="p.estado === EstadoPaciente.Critico">
+    <div class="card-header" [ngSwitch]="p.estado">
+      <h5 *ngSwitchCase="EstadoPaciente.Grave">⚠️ {{ p.nombre }} {{ p.apellido }} <small>({{ p.estado }})</small></h5>
+      <h5 *ngSwitchCase="EstadoPaciente.Critico">🚨 {{ p.nombre }} {{ p.apellido }} <small>({{ p.estado }})</small></h5>
+      <h5 *ngSwitchDefault>✅ {{ p.nombre }} {{ p.apellido }} <small>({{ p.estado }})</small></h5>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-6">
+          <p><strong>Edad:</strong> {{ p.getEdad() }} años</p>
+          <p><strong>Diagnóstico:</strong> {{ p.diagnostico || '—' }}</p>
+          <p><strong>Email:</strong> {{ p.email }}</p>
+          <p><strong>Teléfono:</strong> {{ p.telefono }}</p>
+        </div>
+        <div class="col-6">
+          <p><strong>Hab.:</strong> {{ p.habitacion }}</p>
+          <p><strong>Próx. cita:</strong> {{ p.proximaCita | date:'shortDate' }}</p>
+          <p><strong>Medicamentos:</strong> {{ p.medicamentos.join(', ') }}</p>
+        </div>
+      </div>
+    </div>
+    <!-- Botón Favorito -->
+    <button
+      class="btn"
+      [ngClass]="{
+        'btn-warning': favorito,
+        'btn-outline-warning': !favorito
+      }"
+      [ngStyle]="{
+        'opacity': favorito ? '1' : '0.7'
+      }"
+      (click)="toggleFavorito()"
+    >
+      {{ favorito ? '★ Favorito' : '☆ Marcar favorito' }}
+    </button>
+  </div>
+</ng-container>

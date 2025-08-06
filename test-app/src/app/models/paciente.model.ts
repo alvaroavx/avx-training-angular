@@ -1,3 +1,10 @@
+export enum EstadoPaciente {
+  ListoParaAlta = 'Listo para alta',
+  Estable        = 'Estable',
+  Regular        = 'Regular',
+  Grave          = 'Grave',
+  Critico        = 'Crítico'
+}
 
 export interface FichaPaciente {
   id: number;
@@ -5,11 +12,12 @@ export interface FichaPaciente {
   apellido: string;
   fechaNacimiento: Date;
   diagnostico?: string;
-  email: string;            // correo de contacto
-  telefono: string;         // teléfono o celular
-  habitacion: string;       // número o código de habitación
-  proximaCita: Date;        // fecha de la próxima cita
-  medicamentos: string[];   // lista de medicamentos asignados
+  email: string;
+  telefono: string;
+  habitacion: string;
+  proximaCita: Date;
+  medicamentos: string[];
+  estado: EstadoPaciente; 
 }
 
 export class PacienteModel implements FichaPaciente {
@@ -23,7 +31,8 @@ export class PacienteModel implements FichaPaciente {
     public telefono: string,
     public habitacion: string,
     public proximaCita: Date,
-    public medicamentos: string[]
+    public medicamentos: string[],
+    public estado: EstadoPaciente
   ) {}
 
   getEdad(): number {
@@ -40,7 +49,6 @@ export class PacienteModel implements FichaPaciente {
     return `Paciente: ${this.nombre} ${this.apellido} tiene ${this.getEdad()} años`;
   }
   
-
   /**  
    * Retorna un resumen de contacto, habitación, próxima cita y medicación
    */
