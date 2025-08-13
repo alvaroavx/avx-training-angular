@@ -40,8 +40,8 @@
         </div>
         <div class="col-6">
           <p><strong>Hab.:</strong> {{ p.habitacion }}</p>
-          <p><strong>Próx. cita:</strong> {{ p.proximaCita | date:'longDate' }}</p>
           <p><strong>Próx. cita:</strong> {{ p.proximaCita }}</p>
+          <p><strong>Próx. cita:</strong> {{ p.proximaCita | date:'short' }}</p>
           <p><strong>Medicamentos:</strong> {{ p.medicamentos.join(', ') }}</p>
         </div>
         <div class="col-12"><pre>{{ p | json }}</pre></div>

@@ -1,0 +1,56 @@
+<a routerLink="/empleados" class="btn btn-sm btn-link">&larr; Volver</a>
+
+<h1 class="h4">Detalle de Empleado #{{ id }}</h1>
+
+<div *ngIf="empleado; else notFound" class="mb-4">
+  <div class="card mb-3">
+    <div class="card-body">
+      <p><strong>Nombre:</strong> {{ empleado.nombre }}</p>
+      <p><strong>Cargo:</strong> {{ empleado.cargo }}</p>
+      <p><strong>Estado:</strong> {{ empleado.estado }}</p>
+    </div>
+  </div>
+
+  <!-- Contratos -->
+  <h5>Contratos</h5>
+  <table class="table table-sm">
+    <thead><tr><th>Inicio</th><th>Fin</th><th>Cargo</th><th>Salario</th></tr></thead>
+    <tbody>
+      <tr *ngFor="let c of contratos">
+        <td>{{ c.fechaInicio | date }}</td>
+        <td>{{ c.fechaFin ? (c.fechaFin | date) : '—' }}</td>
+        <td>{{ c.cargo }}</td>
+        <td>{{ c.salario | currency:'CLP' }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Liquidaciones -->
+  <h5>Liquidaciones</h5>
+  <table class="table table-sm">
+    <thead><tr><th>Mes/Año</th><th>Total</th><th>Estado</th></tr></thead>
+    <tbody>
+      <tr *ngFor="let l of liquidaciones">
+        <td>{{ l.mes }}/{{ l.anio }}</td>
+        <td>{{ l.pagoTotal | currency:'CLP' }}</td>
+        <td>{{ l.estado }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Asistencias -->
+  <h5>Asistencias</h5>
+  <table class="table table-sm">
+    <thead><tr><th>Fecha</th><th>Estado</th></tr></thead>
+    <tbody>
+      <tr *ngFor="let a of asistencias">
+        <td>{{ a.fecha | date }}</td>
+        <td>{{ a.estado }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<ng-template #notFound>
+  <div class="alert alert-warning">Empleado no encontrado</div>
+</ng-template>
