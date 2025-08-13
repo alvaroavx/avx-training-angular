@@ -1,12 +1,20 @@
 
 <main class="main">
   <!--<h1>{{ title() }}</h1>-->
-  <!-- Listado de pacientes: -->
-  <div class="content">
-    
-    <app-ficha></app-ficha>
-    <hr>
-    <app-paciente></app-paciente>
-    
-  </div>
+  <!-- src/app/app.html (ejemplo mínimo) -->
+   <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/">Sitio Angular</a>
+      </div>
+      <ul class="nav navbar-inverse">
+        <li class="active"><a routerLink="/" routerLinkActive="active" class="me-3">Home</a></li>
+        <li><a routerLink="/pacientes" routerLinkActive="active" class="me-3">Pacientes</a></li>
+        <li><a routerLink="/ficha" routerLinkActive="active">Ficha</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <router-outlet></router-outlet>
+
 </main>

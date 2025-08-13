@@ -1,15 +1,15 @@
 <h3>Ficha del Paciente</h3>
 
-<select class="form-select mb-3" 
-        [(ngModel)]="pacienteSeleccionado">
-  <option [ngValue]="null" disabled selected>— Selecciona uno —</option>
-  <option *ngFor="let p of pacientes"
-          [ngValue]="p">
+<select class="form-select mb-3"
+        [(ngModel)]="pacienteId" 
+        (ngModelChange)="onChangeId($event)">  <!-- se agrega ngModelChange para sincronizar URL -->
+  <option [ngValue]="null" disabled>— Selecciona uno —</option> <!-- se quita selected manual -->
+  <option *ngFor="let p of pacientes" [ngValue]="p.id">
     {{ p.nombre }} {{ p.apellido }}
   </option>
 </select>
 
-<ng-container *ngIf="pacienteSeleccionado as p">
+<ng-container *ngIf="selected as p">
   <div class="card" 
        [ngClass]="{
          'border-success': p.estado === EstadoPaciente.Estable,
@@ -32,15 +32,19 @@
       <div class="row">
         <div class="col-6">
           <p><strong>Edad:</strong> {{ p.getEdad() }} años</p>
+          <p><strong>Edad detalle:</strong> {{ p.fechaNacimiento | edad }}</p>
+          <p><strong>Edad JSON:</strong> {{ p.fechaNacimiento | edad:'object' | json }}</p>
           <p><strong>Diagnóstico:</strong> {{ p.diagnostico || '—' }}</p>
-          <p><strong>Email:</strong> {{ p.email }}</p>
+          <p><strong>Email:</strong> {{ p.email | uppercase }}</p>
           <p><strong>Teléfono:</strong> {{ p.telefono }}</p>
         </div>
         <div class="col-6">
           <p><strong>Hab.:</strong> {{ p.habitacion }}</p>
-          <p><strong>Próx. cita:</strong> {{ p.proximaCita | date:'shortDate' }}</p>
+          <p><strong>Próx. cita:</strong> {{ p.proximaCita | date:'longDate' }}</p>
+          <p><strong>Próx. cita:</strong> {{ p.proximaCita }}</p>
           <p><strong>Medicamentos:</strong> {{ p.medicamentos.join(', ') }}</p>
         </div>
+        <div class="col-12"><pre>{{ p | json }}</pre></div>
       </div>
     </div>
     <!-- Botón Favorito -->
