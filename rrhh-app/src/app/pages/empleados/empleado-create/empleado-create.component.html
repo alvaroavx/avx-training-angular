@@ -1,0 +1,54 @@
+<h2 class="h5 mb-3">Alta de Empleado</h2>
+
+<div class="col-md-12">
+    <div class="card shadow-sm p-3">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="row g-3">
+        <div class="col-md-6">
+            <label class="form-label">Nombre</label>
+            <input formControlName="nombre" class="form-control" />
+            <div class="text-danger" *ngIf="form.get('nombre')?.invalid && form.get('nombre')?.touched">
+            Nombre requerido (mínimo 3 letras)
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <label class="form-label">RUT</label>
+            <input formControlName="rut" class="form-control" />
+            <div class="text-danger" *ngIf="form.get('rut')?.errors?.['dvInvalido']">
+            RUT inválido
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <label class="form-label">Email</label>
+            <input formControlName="email" class="form-control" />
+            <div class="text-danger" *ngIf="form.get('email')?.errors?.['email']">
+            Email inválido
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <label class="form-label">Cargo</label>
+            <input formControlName="cargo" class="form-control" />
+        </div>
+
+        <div class="col-md-6">
+            <label class="form-label">Estado</label>
+            <select formControlName="estado" class="form-select">
+            <option value="Activo">Activo</option>
+            <option value="Licencia">Licencia</option>
+            <option value="Egreso">Egreso</option>
+            </select>
+        </div>
+
+        <div class="col-md-6">
+            <label class="form-label">Comuna</label>
+            <input formControlName="comuna" class="form-control" />
+        </div>
+
+        <div class="col-12 text-end">
+            <button class="btn btn-primary" type="submit" [disabled]="form.invalid">Crear Empleado</button>
+        </div>
+        </form>
+    </div>
+</div>

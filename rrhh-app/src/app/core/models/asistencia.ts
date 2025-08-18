@@ -21,3 +21,4 @@ export class AsistenciaModel implements Asistencia {
         public horaEntrada?: string, // "08:30"
     ) {}
 }
+

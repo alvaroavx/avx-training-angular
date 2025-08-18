@@ -1,14 +1,18 @@
 <h1 class="h4 mb-3">Empleados</h1>
-<input class="form-control mb-3" [(ngModel)]="filtro" placeholder="Filtrar por nombre" />
-<table class="table table-hover">
-    <thead class="table-light"><tr><th>ID</th><th>Nombre</th><th>Cargo</th><th>Estado</th><th></th></tr></thead>
-    <tbody>
-    <tr *ngFor="let e of empleados | slice:0:100" [class.table-warning]="e.estado!=='Activo'">
-        <td>{{e.id}}</td>
-        <td>{{e.nombre}}</td>
-        <td>{{e.cargo}}</td>
-        <td><span class="badge" [ngClass]="e.estado==='Activo'?'bg-success':'bg-secondary'">{{e.estado}}</span></td>
-        <td><a [routerLink]="['/empleados', e.id]" class="btn btn-sm btn-outline-primary">Ver</a></td>
-    </tr>
-    </tbody>
-</table>
+
+<app-empleado-create></app-empleado-create>
+
+<div class="col-md-12 p-3">
+    <table class="table table-hover">
+        <thead class="table-light"><tr><th>ID</th><th>Nombre</th><th>Cargo</th><th>Estado</th><th></th></tr></thead>
+        <tbody>
+        <tr *ngFor="let e of empleados | slice:0:100" [class.table-warning]="e.estado!=='Activo'">
+            <td>{{e.id}}</td>
+            <td>{{e.nombre}}</td>
+            <td>{{e.cargo}}</td>
+            <td><span class="badge" [ngClass]="e.estado==='Activo'?'bg-success':'bg-secondary'">{{e.estado}}</span></td>
+            <td><a [routerLink]="['/empleados', e.id]" class="btn btn-sm btn-outline-primary">Ver</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>

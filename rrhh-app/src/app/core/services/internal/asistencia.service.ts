@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AsistenciaModel, EstadoAsistencia } from '../models/asistencia';
+import { AsistenciaModel, EstadoAsistencia } from '../../models/asistencia';
 
 @Injectable({
   providedIn: 'root'
@@ -19,4 +19,10 @@ export class AsistenciaService {
   getByEmpleadoId(empleadoId: number) {
     return this.asistencias.filter(a => a.empleadoId === empleadoId);
   }
+
+  create(asistencia: AsistenciaModel) {
+    asistencia.id = this.asistencias.length + 1;
+    this.asistencias.push(asistencia);
+  }
+  
 }

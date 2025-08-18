@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { LiquidacionModel, EstadoLiquidacion } from '../models/liquidacion';
+import { LiquidacionModel, EstadoLiquidacion } from '../../models/liquidacion';
 
 @Injectable({
   providedIn: 'root'

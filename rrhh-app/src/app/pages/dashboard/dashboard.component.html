@@ -1,11 +1,67 @@
+<!-- Dashboard Header -->
 <h1 class="h4 mb-3">Dashboard</h1>
-    <div class="row g-3">
-        <div class="col-md-3" *ngFor="let card of cards">
-        <div class="card shadow-sm">
-            <div class="card-body">
-            <div class="fs-5">{{card.titulo}}</div>
-            <div class="display-6">{{card.valor}}</div>
-            </div>
-        </div>
+
+<!-- Dashboard Cards Row -->
+<div class="row g-3 mb-4">
+  <div class="col-md-3" *ngFor="let card of cards">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <div class="fs-5">{{ card.titulo }}</div>
+        <div class="display-6">{{ card.valor }}</div>
+      </div>
     </div>
+  </div>
+</div>
+
+<hr>
+
+<div class="row g-3">
+  <!-- Regiones Section -->
+  <div class="col-md-3">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h2 class="h4 mb-3">Listado de Regiones</h2>
+        <select class="form-select">
+          <option 
+            *ngFor="let r of regiones" 
+            [value]="r.codigo">
+            {{ r.nombre }}
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <!-- Comunas Section -->
+  <div class="col-md-3">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h2 class="h4 mb-3">Listado de Comunas</h2>
+        <select class="form-select">
+          <option 
+            *ngFor="let c of comunas" 
+            [value]="c.codigo">
+            {{ c.nombre }}
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <!-- UF del día -->
+  <div class="col-md-3">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <div class="fs-5">UF del día</div>
+        <div class="display-6">{{ ufHoy !== null ? (ufHoy | number:'1.0-2') : 'Cargando...' }}</div>
+      </div>
+    </div>
+  </div>
+  <!-- Dolar del día -->
+  <div class="col-md-3">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <div class="fs-5">Dolar del día</div>
+        <div class="display-6">{{ dolarHoy !== null ? (dolarHoy | number:'1.0-2') : 'Cargando...' }}</div>
+      </div>
+    </div>
+  </div>
 </div>

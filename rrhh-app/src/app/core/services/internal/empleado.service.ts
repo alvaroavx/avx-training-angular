@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Empleado, EstadoEmpleado } from '../models/empleado';
+import { Empleado, EstadoEmpleado } from '../../models/empleado';
+import { of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -20,5 +21,22 @@ export class EmpleadoService {
 
   getById(id:number) { 
     return this.getEmpleados().find(e => e.id===id) ?? null; 
+  }
+  
+  create(empleado: any) {
+    // Genera un nuevo ID incrementando el último (simple para mock)
+    const nuevoId = this.empleados.length
+      ? Math.max(...this.empleados.map(e => e.id)) + 1
+      : 1;
+
+    const nuevoEmpleado = {
+      id: nuevoId,
+      ...empleado
+    };
+
+    this.empleados.push(nuevoEmpleado);
+
+    console.log('Empleado agregado:', nuevoEmpleado);
+    return of(true);
   }
 }

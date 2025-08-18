@@ -49,6 +49,34 @@
       </tr>
     </tbody>
   </table>
+  <!-- <app-asistencia-create></app-asistencia-create>-->
+  
+    
+  <h5 class="mt-4">Registrar nueva asistencia</h5>
+  <form [formGroup]="formAsistencia" (ngSubmit)="registrarAsistencia()">
+    <div class="row g-2 mb-3">
+      <div class="col-md-4">
+        <label class="form-label">Fecha</label>
+        <input type="date" class="form-control" formControlName="fecha">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Hora de Entrada</label>
+        <input type="time" class="form-control" formControlName="horaEntrada">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Estado</label>
+        <select class="form-select" formControlName="estado">
+          <option [value]="EstadoAsistencia.Presente">Presente</option>
+          <option [value]="EstadoAsistencia.Atrasado">Atrasado</option>
+          <option [value]="EstadoAsistencia.Ausente">Ausente</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn btn-primary btn-sm" type="submit" [disabled]="formAsistencia.invalid">
+      Guardar asistencia
+    </button>
+  </form>
+  
 </div>
 
 <ng-template #notFound>

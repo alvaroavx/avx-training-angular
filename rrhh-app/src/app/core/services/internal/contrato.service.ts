@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ContratoModel, TipoContrato } from '../models/contrato';
+import { ContratoModel, TipoContrato } from '../../models/contrato';
 
 @Injectable({
   providedIn: 'root'

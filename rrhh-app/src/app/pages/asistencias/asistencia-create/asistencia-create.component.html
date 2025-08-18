@@ -1,0 +1,32 @@
+<h1 class="h4 mb-3">Registrar Asistencia</h1>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="mb-3">
+    <label for="empleadoId" class="form-label">ID del Empleado</label>
+    <input type="number" id="empleadoId" class="form-control" formControlName="empleadoId">
+  </div>
+
+  <div class="mb-3">
+    <label for="fecha" class="form-label">Fecha</label>
+    <input type="date" id="fecha" class="form-control" formControlName="fecha">
+  </div>
+
+  <div class="mb-3">
+    <label for="horaEntrada" class="form-label">Hora de Entrada</label>
+    <input type="time" id="horaEntrada" class="form-control" formControlName="horaEntrada">
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Estado</label>
+    <select class="form-select" formControlName="estado">
+      <option [value]="EstadoAsistencia.Presente">Presente</option>
+      <option [value]="EstadoAsistencia.Atrasado">Atrasado</option>
+      <option [value]="EstadoAsistencia.Ausente">Ausente</option>
+    </select>
+  </div>
+
+  <button class="btn btn-primary" type="submit" [disabled]="form.invalid">
+    Registrar Asistencia
+  </button>
+</form>
+
