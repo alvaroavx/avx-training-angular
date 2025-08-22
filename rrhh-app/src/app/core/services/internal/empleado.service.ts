@@ -43,10 +43,7 @@ export class EmpleadoService {
 
     // Mapeo Estado: asumo 'V' = Activo; si tu API usa otras letras, ajusta aquí.
     const estado: EstadoEmpleado =
-      f.IND_ESTADO === 'V' ? EstadoEmpleado.Activo
-      // Si distingues licencia / egreso en el API, agrega más casos:
-      // : f.IND_ESTADO === 'L' ? EstadoEmpleado.Licencia
-      : EstadoEmpleado.Egreso;
+      f.IND_ESTADO === 'V' ? EstadoEmpleado.Activo : EstadoEmpleado.Egreso;
 
     return {
       id: f.COD_FUNCIONARIO,
@@ -67,18 +64,8 @@ export class EmpleadoService {
     );
   }
 
-  /** Detalle por ID (si tu API soporta /funcionarios/:id úsalo; si no, filtramos client-side) */
+  /** Detalle por ID **/
   getById$(id: number): Observable<Empleado> {
-    // Opción A (endpoint RESTful):
-    // return this.http.get<FuncionarioApi>(`${this.baseUrl}/${id}`).pipe(
-    //   map(this.toEmpleado),
-    //   catchError(err => {
-    //     console.error('[EmpleadoService] getById error', err);
-    //     return throwError(() => err);
-    //   })
-    // );
-
-    // Opción B (no hay endpoint detalle -> trae todos y filtra)
     return this.getEmpleados$().pipe(
       map(list => {
         const found = list.find(e => e.id === id);
@@ -92,13 +79,4 @@ export class EmpleadoService {
     );
   }
 
-  // --- Opcional: mock local para crear mientras no exista POST en API ---
-  private _mock: Empleado[] = [];
-  createLocal(empleado: Omit<Empleado, 'id'>) {
-    const nuevoId =
-      this._mock.length ? Math.max(...this._mock.map(e => e.id)) + 1 : 1;
-    const nuevo = { id: nuevoId, ...empleado };
-    this._mock.push(nuevo);
-    return of(true);
-  }
 }

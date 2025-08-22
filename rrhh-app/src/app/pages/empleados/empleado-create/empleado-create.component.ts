@@ -35,10 +35,10 @@ export class EmpleadoCreateComponent {
     if (this.form.invalid) return;
 
     const nuevoEmpleado = this.form.value;
-    this.empleadoService.create(nuevoEmpleado).subscribe(() => {
+    /*this.empleadoService.create(nuevoEmpleado).subscribe(() => {
       this.form.reset({ estado: 'Activo' });
       alert('Empleado creado correctamente');
-    });
+    });*/
   }
 
   validarRut(control: AbstractControl): ValidationErrors | null {

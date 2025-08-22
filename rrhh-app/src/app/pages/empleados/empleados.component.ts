@@ -1,43 +1,51 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { FormsModule } from '@angular/forms';
-import { Observable, map, startWith, combineLatest } from 'rxjs';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { Observable, combineLatest, map, startWith, shareReplay } from 'rxjs';
 import { EmpleadoService } from '../../core/services/internal/empleado.service';
 import { Empleado } from '../../core/models/empleado';
+import { EmpleadoCreateComponent } from '../empleados/empleado-create/empleado-create.component';
 
 @Component({
   selector: 'app-empleados-list',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule],
+  imports: [CommonModule, RouterLink, ReactiveFormsModule, EmpleadoCreateComponent],
   templateUrl: './empleados.component.html',
   styleUrls: ['./empleados.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EmpleadosListComponent implements OnInit {
-  public filtro = '';
+  // Data base
   empleados$!: Observable<Empleado[]>;
-  // Opcional: filtro reactivo
+
+  // Filtro reactivo
+  filtroCtrl = new FormControl<string>('', { nonNullable: true });
+
+  // Lista filtrada
   empleadosFiltrados$!: Observable<Empleado[]>;
 
   constructor(private empleadoService: EmpleadoService) {}
 
   ngOnInit(): void {
-    this.empleados$ = this.empleadoService.getEmpleados$();
+    this.empleados$ = this.empleadoService.getEmpleados$().pipe(shareReplay(1));
 
-    // Si quieres filtrar por nombre/cargo con el input "filtro":
-    // (para hacerlo reactivo habría que convertir el filtro a observable; aquí lo dejo simple)
-    this.empleadosFiltrados$ = this.empleados$.pipe(
-      map(list => {
-        const q = (this.filtro || '').toLowerCase().trim();
-        if (!q) return list;
+    this.empleadosFiltrados$ = combineLatest([
+      this.empleados$,
+      this.filtroCtrl.valueChanges.pipe(startWith(''))
+    ]).pipe(
+      map(([list, q]) => {
+        const query = q.toLowerCase().trim();
+        if (!query) return list;
         return list.filter(e =>
-          e.nombre.toLowerCase().includes(q) ||
-          e.cargo.toLowerCase().includes(q)
+          (e.nombre ?? '').toLowerCase().includes(query) ||
+          (e.cargo ?? '').toLowerCase().includes(query)
         );
       })
     );
   }
 
-  // Si quieres que el filtro sea "en vivo", podemos migrar `filtro` a un FormControl y recombinar.
+  trackById(_: number, item: Empleado): number {
+    return item.id;
+  }
 }

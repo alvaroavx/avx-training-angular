@@ -1,83 +1,90 @@
 <a routerLink="/empleados" class="btn btn-sm btn-link">&larr; Volver</a>
 
-<h1 class="h4">Detalle de Empleado #{{ id }}</h1>
+<!-- Usamos un único async con VM combinada -->
+<ng-container *ngIf="vm$ | async as vm">
+  <h1 class="h4">Detalle de Empleado #{{ vm.id }}</h1>
 
-<div *ngIf="empleado; else notFound" class="mb-4">
-  <div class="card mb-3">
-    <div class="card-body">
-      <p><strong>Nombre:</strong> {{ empleado.nombre }}</p>
-      <p><strong>Cargo:</strong> {{ empleado.cargo }}</p>
-      <p><strong>Estado:</strong> {{ empleado.estado }}</p>
+  <div *ngIf="vm.empleado; else notFound" class="mb-4">
+    <div class="card mb-3">
+      <div class="card-body">
+        <p><strong>Nombre:</strong> {{ vm.empleado.nombre }}</p>
+        <p><strong>Cargo:</strong> {{ vm.empleado.cargo }}</p>
+        <p><strong>Estado:</strong> {{ vm.empleado.estado }}</p>
+      </div>
     </div>
+
+    <!-- Contratos -->
+    <h5>Contratos</h5>
+    <table class="table table-sm">
+      <thead>
+        <tr><th>Inicio</th><th>Fin</th><th>Cargo</th><th>Salario</th></tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let c of vm.contratos">
+          <td>{{ c.fechaInicio | date }}</td>
+          <td>{{ c.fechaFin ? (c.fechaFin | date) : '—' }}</td>
+          <td>{{ c.cargo }}</td>
+          <td>{{ c.salario | currency:'CLP' }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Liquidaciones -->
+    <h5>Liquidaciones</h5>
+    <table class="table table-sm">
+      <thead>
+        <tr><th>Mes/Año</th><th>Total</th><th>Estado</th></tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let l of vm.liquidaciones">
+          <td>{{ l.mes }}/{{ l.anio }}</td>
+          <td>{{ l.pagoTotal | currency:'CLP' }}</td>
+          <td>{{ l.estado }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Asistencias -->
+    <h5>Asistencias</h5>
+    <table class="table table-sm">
+      <thead>
+        <tr><th>Fecha</th><th>Estado</th></tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let a of vm.asistencias">
+          <td>{{ a.fecha | date }}</td>
+          <td>{{ a.estado }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Formulario nueva asistencia -->
+    <h5 class="mt-4">Registrar nueva asistencia</h5>
+    <form [formGroup]="formAsistencia" (ngSubmit)="registrarAsistencia(vm)">
+      <div class="row g-2 mb-3">
+        <div class="col-md-4">
+          <label class="form-label">Fecha</label>
+          <input type="date" class="form-control" formControlName="fecha">
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Hora de Entrada</label>
+          <input type="time" class="form-control" formControlName="horaEntrada">
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Estado</label>
+          <select class="form-select" formControlName="estado">
+            <option [value]="EstadoAsistencia.Presente">Presente</option>
+            <option [value]="EstadoAsistencia.Atrasado">Atrasado</option>
+            <option [value]="EstadoAsistencia.Ausente">Ausente</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn btn-primary btn-sm" type="submit" [disabled]="formAsistencia.invalid">
+        Guardar asistencia
+      </button>
+    </form>
   </div>
-
-  <!-- Contratos -->
-  <h5>Contratos</h5>
-  <table class="table table-sm">
-    <thead><tr><th>Inicio</th><th>Fin</th><th>Cargo</th><th>Salario</th></tr></thead>
-    <tbody>
-      <tr *ngFor="let c of contratos">
-        <td>{{ c.fechaInicio | date }}</td>
-        <td>{{ c.fechaFin ? (c.fechaFin | date) : '—' }}</td>
-        <td>{{ c.cargo }}</td>
-        <td>{{ c.salario | currency:'CLP' }}</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <!-- Liquidaciones -->
-  <h5>Liquidaciones</h5>
-  <table class="table table-sm">
-    <thead><tr><th>Mes/Año</th><th>Total</th><th>Estado</th></tr></thead>
-    <tbody>
-      <tr *ngFor="let l of liquidaciones">
-        <td>{{ l.mes }}/{{ l.anio }}</td>
-        <td>{{ l.pagoTotal | currency:'CLP' }}</td>
-        <td>{{ l.estado }}</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <!-- Asistencias -->
-  <h5>Asistencias</h5>
-  <table class="table table-sm">
-    <thead><tr><th>Fecha</th><th>Estado</th></tr></thead>
-    <tbody>
-      <tr *ngFor="let a of asistencias">
-        <td>{{ a.fecha | date }}</td>
-        <td>{{ a.estado }}</td>
-      </tr>
-    </tbody>
-  </table>
-  <!-- <app-asistencia-create></app-asistencia-create>-->
-  
-    
-  <h5 class="mt-4">Registrar nueva asistencia</h5>
-  <form [formGroup]="formAsistencia" (ngSubmit)="registrarAsistencia()">
-    <div class="row g-2 mb-3">
-      <div class="col-md-4">
-        <label class="form-label">Fecha</label>
-        <input type="date" class="form-control" formControlName="fecha">
-      </div>
-      <div class="col-md-4">
-        <label class="form-label">Hora de Entrada</label>
-        <input type="time" class="form-control" formControlName="horaEntrada">
-      </div>
-      <div class="col-md-4">
-        <label class="form-label">Estado</label>
-        <select class="form-select" formControlName="estado">
-          <option [value]="EstadoAsistencia.Presente">Presente</option>
-          <option [value]="EstadoAsistencia.Atrasado">Atrasado</option>
-          <option [value]="EstadoAsistencia.Ausente">Ausente</option>
-        </select>
-      </div>
-    </div>
-    <button class="btn btn-primary btn-sm" type="submit" [disabled]="formAsistencia.invalid">
-      Guardar asistencia
-    </button>
-  </form>
-  
-</div>
+</ng-container>
 
 <ng-template #notFound>
   <div class="alert alert-warning">Empleado no encontrado</div>
