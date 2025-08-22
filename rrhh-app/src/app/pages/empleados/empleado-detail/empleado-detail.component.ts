@@ -29,6 +29,8 @@ export class EmpleadoDetailComponent implements OnInit {
   public asistencias: Asistencia[] = [];
   public EstadoAsistencia = EstadoAsistencia;
   formAsistencia!: FormGroup;
+  cargando = false;
+
 
   constructor(
     private route: ActivatedRoute,
@@ -67,7 +69,7 @@ export class EmpleadoDetailComponent implements OnInit {
 
     if (this.empleado) {
       this.contratos = this.contratoService.getByEmpleadoId(this.id);
-      this.liquidaciones = this.liquidacionService.getByEmpleadoId(this.id);
+      //this.liquidaciones = this.liquidacionService.getByEmpleadoId$(this.id);
       this.asistencias = this.asistenciaService.getByEmpleadoId(this.id);
     }
   }

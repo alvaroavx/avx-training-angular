@@ -3,6 +3,7 @@ import { CommonModule }   from '@angular/common';
 import { ComunasService } from '../../core/services/external/comunas.service';
 import { RegionesService } from '../../core/services/external/regiones.service';
 import { IndicadoresService } from '../../core/services/external/indicadores.service';
+import { ContratosComponent } from '../contratos/contratos.component';
 
 @Component({
   selector: 'app-dashboard',

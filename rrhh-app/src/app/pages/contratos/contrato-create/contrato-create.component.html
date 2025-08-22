@@ -1,0 +1,37 @@
+<h4>Nuevo Contrato</h4>
+
+<form (ngSubmit)="onSubmit()" #formContrato="ngForm">
+  <div class="mb-3">
+    <label>Cargo</label>
+    <input type="text" class="form-control" name="cargo" [(ngModel)]="contrato.cargo" required>
+  </div>
+
+  <div class="mb-3">
+    <label>Salario</label>
+    <input type="number" class="form-control" name="salario" [(ngModel)]="contrato.salario" required>
+  </div>
+
+  <div class="mb-3">
+    <label>Fecha de inicio</label>
+    <input type="date" class="form-control" name="fechaInicio" [(ngModel)]="contrato.fechaInicio" required>
+  </div>
+
+  <div class="mb-3">
+    <label>Fecha de término (opcional)</label>
+    <input type="date" class="form-control" name="fechaFin" [(ngModel)]="contrato.fechaFin">
+  </div>
+
+  <div class="mb-3">
+    <label>Tipo de contrato</label>
+    <select class="form-select" name="tipo" [(ngModel)]="contrato.tipo">
+      <option *ngFor="let tipo of tiposContrato" [value]="tipo">{{ tipo }}</option>
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label>Documento PDF (solo nombre del archivo)</label>
+    <input type="text" class="form-control" name="documentoPdf" [(ngModel)]="contrato.documentoPdf">
+  </div>
+
+  <button class="btn btn-primary" type="submit" [disabled]="formContrato.invalid">Agregar Contrato</button>
+</form>
